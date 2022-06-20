@@ -1,0 +1,9 @@
+# Project-specific files
+db-data
+
+# Generic files
+.DS_Store
+.Thumbs.db
+.Trash
+.Trash-1000
+.Spotlight-V100
