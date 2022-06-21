@@ -1,5 +1,6 @@
 # Project-specific files
 db-data
+node_modules
 
 # Generic files
 .DS_Store
