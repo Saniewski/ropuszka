@@ -6,17 +6,6 @@ CREATE SCHEMA IF NOT EXISTS ropuszka;
 
 
 
--- ************************************** Client
-
-CREATE TABLE ropuszka.client
-(
-    "id"          bigint NOT NULL,
-    name          text NOT NULL,
-    date_of_birth date NOT NULL,
-    email_address text NOT NULL,
-    CONSTRAINT PK_23 PRIMARY KEY ( "id" )
-);
-
 
 -- ************************************** Discount
 
@@ -39,15 +28,33 @@ CREATE TABLE ropuszka.product
     name          text NOT NULL,
     price         decimal(18,2) NOT NULL,
     producer_name text NOT NULL,
-    id_discount   bigint NOT NULL,
-    CONSTRAINT PK_29 PRIMARY KEY ( "id" ),
-    CONSTRAINT FK_70 FOREIGN KEY ( id_discount ) REFERENCES ropuszka.discount ( "id" )
+    CONSTRAINT PK_29 PRIMARY KEY ( "id" )
 );
 
-CREATE INDEX FK_72 ON ropuszka.product
+
+-- ************************************** ProductDiscount
+
+CREATE TABLE ropuszka.product_discount
+(
+    "id"        bigint NOT NULL,
+    id_product  bigint NOT NULL,
+    id_discount bigint NOT NULL,
+    CONSTRAINT PK_81 PRIMARY KEY ( "id" ),
+    CONSTRAINT FK_83 FOREIGN KEY ( id_product ) REFERENCES ropuszka.product ( "id" ),
+    CONSTRAINT FK_89 FOREIGN KEY ( id_discount ) REFERENCES ropuszka.discount ( "id" )
+);
+
+
+CREATE INDEX FK_85 ON ropuszka.product_discount
+    (
+     id_product
+        );
+
+CREATE INDEX FK_91 ON ropuszka.product_discount
     (
      id_discount
         );
+
 
 
 -- ************************************** Shop
@@ -61,6 +68,17 @@ CREATE TABLE ropuszka.shop
     CONSTRAINT PK_10 PRIMARY KEY ( "id" )
 );
 
+
+-- ************************************** Client
+
+CREATE TABLE ropuszka.client
+(
+    "id"          bigint NOT NULL,
+    name          text NOT NULL,
+    date_of_birth date NOT NULL,
+    email_address text NOT NULL,
+    CONSTRAINT PK_23 PRIMARY KEY ( "id" )
+);
 
 
 -- ************************************** Purchase
