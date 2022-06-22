@@ -1,30 +1,21 @@
-import { Client } from 'pg';
+import { Client, Pool, QueryResult } from 'pg';
 
 const credentials = {
   host: 'localhost',
   database: 'ropuszka',
   user: 'postgres',
   password: 'postgres',
-  port: 5432
+  port: 5432,
+  max: 10,
+  idleTimeoutMillis: 30000
 };
 
-async function getClient() {
-  const client = new Client(credentials);
-  await client.connect();
-  return client;
-}
+const pool = new Pool(credentials);
 
-async function disconnect(client: Client) {
-  await client.end();
-}
-
-async function query(client: Client, query: string) {
-  const result = await client.query(query);
-  return result;
+async function query(query: string): Promise<QueryResult<any>> {
+  return await pool.query(query);
 }
 
 export default {
-  getClient,
-  disconnect,
   query
 };
