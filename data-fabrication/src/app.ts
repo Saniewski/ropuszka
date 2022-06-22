@@ -21,7 +21,6 @@ function generateMockedData(
   productPurchasesCount: number
   ): void {
   // generate shops
-  shopsCount = 5;
   for (let i = 0; i < shopsCount; i++) {
     dataGenerator.generateFakeShop()
       .then(shop => {
