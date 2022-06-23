@@ -1,0 +1,47 @@
+
+// ************************************** Discount
+{
+    "id":               1,
+    "name":             "Test",
+    "percentage":       "0.15",
+    "date_from":        "2000-01-20",
+    "date_to":          "2001-01-20",
+    "product_ids":      [2,4,6]
+}
+
+
+//************************************** Product
+{
+    "id":               1,
+    "name":             "Test",
+    "price":            "101.11",
+    "producer_name":    "Testowy",
+    "discount_ids":     [1,3,5]
+}
+
+//************************************** Shop
+{
+    "id":               1,
+    "address":          "Testowa 3, 00-000 Testowe",
+    "phone_number":     "+48666666666",
+    "email_address":    "test1@test.com",
+}
+
+
+//************************************** Client
+{
+    "id":                1,
+    "name":              "Test",
+    "date_of_birth":     "1990-01-13",
+    "email_address":     "test90@test.com",
+}
+
+
+//************************************** Purchase
+{
+    "id":                1,
+    "date":              "2022-06-20",
+    "id_shop":           1,
+    "id_client":         1,
+    "product_ids":       [1,10,100,101]
+}
