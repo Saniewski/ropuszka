@@ -33,7 +33,14 @@ services:
       - 5432:5432
     volumes:
       - ./postgres/db-data:/var/lib/postgresql/data
-      - ./postgres/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./postgres/init/00_init_db.sql:/docker-entrypoint-initdb.d/00_init_db.sql
+      - ./postgres/init/01_insert_shop.sql/:/docker-entrypoint-initdb.d/01_insert_shop.sql
+      - ./postgres/init/02_insert_product.sql/:/docker-entrypoint-initdb.d/02_insert_product.sql
+      - ./postgres/init/03_insert_client.sql/:/docker-entrypoint-initdb.d/03_insert_client.sql
+      - ./postgres/init/04_insert_discount.sql/:/docker-entrypoint-initdb.d/04_insert_discount.sql
+      - ./postgres/init/05_insert_product_discount.sql/:/docker-entrypoint-initdb.d/05_insert_product_discount.sql
+      - ./postgres/init/06_insert_purchase.sql/:/docker-entrypoint-initdb.d/06_insert_purchase.sql
+      - ./postgres/init/07_insert_product_purchase.sql/:/docker-entrypoint-initdb.d/07_insert_product_purchase.sql
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
