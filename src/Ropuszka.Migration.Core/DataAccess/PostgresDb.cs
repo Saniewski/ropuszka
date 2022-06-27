@@ -1,9 +1,9 @@
 using Dapper;
 using Npgsql;
 
-namespace Ropuszka.Migration.DataFabricator.Helpers;
+namespace Ropuszka.Migration.Core.DataAccess;
 
-public static class AppDb
+public static class PostgresDb
 {
     private static readonly string _connectionString = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=ropuszka;Pooling=true;";
 

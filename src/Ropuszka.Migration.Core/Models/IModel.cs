@@ -1,4 +1,4 @@
-namespace Ropuszka.Migration.DataFabricator.Models;
+namespace Ropuszka.Migration.Core.Models;
 
 public interface IModel
 {

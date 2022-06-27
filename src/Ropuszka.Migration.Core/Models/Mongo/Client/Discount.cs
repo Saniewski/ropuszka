@@ -1,9 +1,9 @@
-namespace Ropuszka.Migration.DataFabricator.Models;
+namespace Ropuszka.Migration.Core.Models.Mongo.Client;
 
-public class DiscountDto : IModel
+public class Discount
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
+    public int IdDiscount { get; set; }
+    public string? Name { get; set; }
     public double Percentage { get; set; }
     public DateTime DateFrom { get; set; }
     public DateTime DateTo { get; set; }
@@ -12,7 +12,7 @@ public class DiscountDto : IModel
     {
         return $@"
 {{
-    Id: {this.Id},
+    IdDiscount: {this.IdDiscount},
     Name: {this.Name},
     Percentage: {this.Percentage},
     DateFrom: {this.DateFrom},
