@@ -2,6 +2,9 @@
 db-data
 node_modules
 
+# Build files
+build
+
 # Generic files
 .DS_Store
 .Thumbs.db
