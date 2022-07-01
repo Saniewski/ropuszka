@@ -2,13 +2,13 @@
 using Ropuszka.Migration.Core.Models.Postgres;
 using Ropuszka.Migration.Core.Services;
 
-const int numberOfShops = 1000;
+const int numberOfShops = 500;
 const int numberOfProducts = 100000;
-const int numberOfClients = 10000000;
+const int numberOfClients = 200000;
 const int numberOfDiscounts = 10000;
-const int numberOfProductDiscounts = 400000;
-const int numberOfPurchases = 100000000;
-const int numberOfProductPurchases = 500000000;
+const int numberOfProductDiscounts = 40000;
+const int numberOfPurchases = 1000000;
+const int numberOfProductPurchases = 2000000;
 
 GenerateMockedData(numberOfShops, numberOfProducts, numberOfClients, numberOfDiscounts, numberOfProductDiscounts, numberOfPurchases, numberOfProductPurchases);
 
