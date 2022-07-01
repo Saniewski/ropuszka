@@ -1,0 +1,21 @@
+{
+  "id": 1,
+  "name": "Discount 1",
+  "percentage": 0.25,
+  "date_from": "2017-12-20",
+  "date_to": "2018-01-20",
+  "discounted_products": [
+    {
+      "id_product": 1,
+      "name": "Product 1",
+      "price": 10.0,
+      "producer_name": "Producer 1"
+    },
+    {
+      "id_product": 3,
+      "name": "Product 3",
+      "price": 7.99,
+      "producer_name": "Producer 1"
+    }
+  ]
+}

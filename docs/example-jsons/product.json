@@ -1,0 +1,22 @@
+{
+  "id_product": 1,
+  "name": "Product 1",
+  "price": 10.0,
+  "producer_name": "Producer 1",
+  "discounts": [
+    {
+      "id": 1,
+      "name": "Discount 1",
+      "percentage": 0.25,
+      "date_from": "2017-12-20",
+      "date_to": "2018-01-20"
+    },
+    {
+      "id": 45,
+      "name": "Discount 45",
+      "percentage": 0.1,
+      "date_from": "2019-12-20",
+      "date_to": "2020-01-20"
+    }
+  ]
+}

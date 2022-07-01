@@ -1,0 +1,76 @@
+{
+  "id": 1,
+  "name": "Leanne Graham",
+  "date_of_birth": "1975-06-24",
+  "email_address": "l.graham@example.com",
+  "purchases": [
+    {
+      "id_purchase": 1,
+      "date": "2018-01-01",
+      "shop": {
+        "id_shop": 1,
+        "address": "Shop 1 address",
+        "phone_number": "123456789",
+        "email_address": "shop.1@example.com"
+      },
+      "purchased_products": [
+        {
+          "id_product": 1,
+          "name": "Product 1",
+          "price": 10.0,
+          "producer_name": "Producer 1",
+          "quantity": 1,
+          "discount": {
+            "id_discount": 1,
+            "name": "Discount 1",
+            "percentage": 0.25,
+            "date_from": "2017-12-20",
+            "date_to": "2018-01-20"
+          }
+        },
+        {
+          "id_product": 2,
+          "name": "Product 2",
+          "price": 20.0,
+          "producer_name": "Producer 2",
+          "quantity": 2,
+          "discount": null
+        }
+      ]
+    },
+    {
+      "id_purchase": 2,
+      "date": "2018-04-14",
+      "shop": {
+        "id_shop": 1,
+        "address": "Shop 1 address",
+        "phone_number": "123456789",
+        "email_address": "shop.1@example.com"
+      },
+      "purchased_products": [
+        {
+          "id_product": 1,
+          "name": "Product 1",
+          "price": 10.0,
+          "producer_name": "Producer 1",
+          "quantity": 1,
+          "discount": null
+        },
+        {
+          "id_product": 2,
+          "name": "Product 2",
+          "price": 20.0,
+          "producer_name": "Producer 2",
+          "quantity": 2,
+          "discount": {
+            "id_discount": 1,
+            "name": "Discount 2",
+            "percentage": 0.2,
+            "date_from": "2018-04-01",
+            "date_to": "2018-04-30"
+          }
+        }
+      ]
+    }
+  ]
+}
