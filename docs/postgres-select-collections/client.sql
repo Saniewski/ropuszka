@@ -17,7 +17,7 @@ SELECT json_agg(json_build_object(
                 FROM ropuszka.shop s
                 WHERE s.id = p.id_shop
             ), 'null'::json),
-            'PurchasedProducts': COALESCE((
+            'PurchasedProducts', COALESCE((
                 SELECT json_agg(json_build_object(
                     'IdProduct', prod.id,
                     'Name', prod.name,
