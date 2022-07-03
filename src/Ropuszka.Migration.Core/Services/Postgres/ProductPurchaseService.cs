@@ -62,13 +62,13 @@ INSERT INTO ropuszka.product_purchase (
         });
     }
 
-    // TODO: implement this
     public IEnumerable<int> GetAllIds()
     {
-        throw new NotImplementedException();
+        const string query = "SELECT id FROM ropuszka.product_purchase;";
+        var result = PostgresDb.Query(query);
+        return result.Select(x => (int)(x.id));
     }
 
-    // TODO: test and fix
     public ProductPurchaseDto? GetById(int id)
     {
         const string query = @"
@@ -85,7 +85,7 @@ WHERE id = @id;
             Id = (int)x.id,
             IdProduct = (int)x.id_product,
             IdPurchase = (int)x.id_purchase,
-            Quantity = (int)x.quantity
+            Quantity = (double)x.quantity
         }).FirstOrDefault();
     }
 }

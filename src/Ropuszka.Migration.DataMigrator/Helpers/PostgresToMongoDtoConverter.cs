@@ -64,7 +64,7 @@ public class PostgresToMongoDtoConverter
                 {
                     var pgDiscount = _discountService.GetById(pgProductDiscount.IdDiscount);
                     if (pgPurchase?.Date > pgDiscount?.DateFrom && pgPurchase?.Date < pgDiscount?.DateTo)
-                        mongoDiscount = new Discount
+                        mongoDiscount = new mongo.Client.Discount
                         {
                             IdDiscount = pgDiscount.Id,
                             Name = pgDiscount.Name,
@@ -73,7 +73,7 @@ public class PostgresToMongoDtoConverter
                             DateTo = pgDiscount.DateTo
                         };
                 }
-                mongoPurchasedProducts.Add(new PurchasedProduct
+                mongoPurchasedProducts.Add(new mongo.Client.PurchasedProduct
                 {
                     IdProduct = pgProduct.Id,
                     Name = pgProduct.Name,
@@ -103,16 +103,16 @@ public class PostgresToMongoDtoConverter
         };
         return mongoClient;
     }
-    
+
     public mongo.Discount.DiscountDto ConvertPgDiscountToMongoDiscount(pg.DiscountDto pgDiscount)
     {
         // get discounted products
-        var mongoDiscountedProducts = new List<DiscountedProduct>();
+        var mongoDiscountedProducts = new List<mongo.Discount.DiscountedProduct>();
         var pgProductDiscounts = _productDiscountService.GetAllByDiscountId(pgDiscount.Id);
         foreach (var pgProductDiscount in pgProductDiscounts)
         {
             var pgProduct = _productService.GetById(pgProductDiscount.IdProduct);
-            mongoDiscountedProducts.Add(new DiscountedProduct
+            mongoDiscountedProducts.Add(new mongo.Discount.DiscountedProduct
             {
                 IdDiscountedProduct = pgProduct.Id,
                 Name = pgProduct.Name,

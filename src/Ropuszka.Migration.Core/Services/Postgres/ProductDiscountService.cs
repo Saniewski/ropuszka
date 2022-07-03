@@ -74,13 +74,13 @@ INSERT INTO ropuszka.product_discount (
         });
     }
 
-    // TODO: implement this
     public IEnumerable<int> GetAllIds()
     {
-        throw new NotImplementedException();
+        const string query = "SELECT id FROM ropuszka.product_discount;";
+        var result = PostgresDb.Query(query);
+        return result.Select(x => (int)x.id);
     }
 
-    // TODO: test this
     public ProductDiscountDto? GetById(int id)
     {
         const string query = @"
@@ -91,12 +91,12 @@ WHERE id = @id;
         {
             id = id
         });
-        var result = PostgresDb.Query(query, parameters).FirstOrDefault();
-        return result is null ? null : new ProductDiscountDto
+        var result = PostgresDb.Query(query, parameters);
+        return result.Select(x => new ProductDiscountDto
         {
-            Id = (int)result.id,
-            IdProduct = (int)result.id_product,
-            IdDiscount = (int)result.id_discount
-        };
+            Id = (int)x.id,
+            IdProduct = (int)x.id_product,
+            IdDiscount = (int)x.id_discount
+        }).FirstOrDefault();
     }
 }

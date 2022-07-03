@@ -80,13 +80,13 @@ INSERT INTO ropuszka.purchase (
         });
     }
 
-    // TODO: implement this
     public IEnumerable<int> GetAllIds()
     {
-        throw new NotImplementedException();
+        const string query = "SELECT id FROM ropuszka.purchase;";
+        var result = PostgresDb.Query(query);
+        return result.Select(x => (int)(x.id));
     }
 
-    // TODO: test and fix
     public PurchaseDto? GetById(int id)
     {
         const string query = @"
