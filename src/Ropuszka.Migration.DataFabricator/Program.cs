@@ -1,6 +1,6 @@
 ﻿using Ropuszka.Migration.DataFabricator.Helpers;
 using Ropuszka.Migration.Core.Models.Postgres;
-using Ropuszka.Migration.Core.Services;
+using Ropuszka.Migration.Core.Services.Postgres;
 
 const int numberOfShops = 500;
 const int numberOfProducts = 100000;
@@ -10,7 +10,15 @@ const int numberOfProductDiscounts = 40000;
 const int numberOfPurchases = 1000000;
 const int numberOfProductPurchases = 2000000;
 
-GenerateMockedData(numberOfShops, numberOfProducts, numberOfClients, numberOfDiscounts, numberOfProductDiscounts, numberOfPurchases, numberOfProductPurchases);
+GenerateMockedData(
+    numberOfShops,
+    numberOfProducts,
+    numberOfClients,
+    numberOfDiscounts,
+    numberOfProductDiscounts,
+    numberOfPurchases,
+    numberOfProductPurchases
+    );
 
 static void GenerateMockedData(
     int numberOfShops,
@@ -23,8 +31,22 @@ static void GenerateMockedData(
     )
 {
     // Setup
-    var postgresService = new PostgresService();
-    var dataGenerator = new DataGenerator();
+    var shopService = new ShopService();
+    var productService = new ProductService();
+    var clientService = new ClientService();
+    var discountService = new DiscountService();
+    var productDiscountService = new ProductDiscountService();
+    var purchaseService = new PurchaseService();
+    var productPurchaseService = new ProductPurchaseService();
+    var dataGenerator = new DataGenerator(
+        clientService,
+        discountService,
+        productDiscountService,
+        productPurchaseService,
+        productService,
+        purchaseService,
+        shopService
+        );
     
     // Generate shops
     Console.WriteLine("Generating shops...");
@@ -34,7 +56,7 @@ static void GenerateMockedData(
         try
         {
             shop = dataGenerator.GenerateFakeShop();
-            postgresService.AddShop(shop);
+            shopService.Add(shop);
             Console.Write($"\rProgress: {i + 1} / {numberOfShops} shops generated.");
         } catch (Exception ex)
         {
@@ -52,7 +74,7 @@ static void GenerateMockedData(
         try
         {
             product = dataGenerator.GenerateFakeProduct();
-            postgresService.AddProduct(product);
+            productService.Add(product);
             Console.Write($"\rProgress: {i + 1} / {numberOfProducts} products generated.");
         } catch (Exception ex)
         {
@@ -70,7 +92,7 @@ static void GenerateMockedData(
         try
         {
             client = dataGenerator.GenerateFakeClient();
-            postgresService.AddClient(client);
+            clientService.Add(client);
             Console.Write($"\rProgress: {i+1} / {numberOfClients} clients generated.");
         } catch (Exception ex)
         {
@@ -88,7 +110,7 @@ static void GenerateMockedData(
         try
         {
             discount = dataGenerator.GenerateFakeDiscount();
-            postgresService.AddDiscount(discount);
+            discountService.Add(discount);
             Console.Write($"\rProgress: {i + 1} / {numberOfDiscounts} discounts generated.");
         } catch (Exception ex)
         {
@@ -106,7 +128,7 @@ static void GenerateMockedData(
         try
         {
             productDiscount = dataGenerator.GenerateFakeProductDiscount();
-            postgresService.AddProductDiscount(productDiscount);
+            productDiscountService.Add(productDiscount);
             Console.Write($"\rProgress: {i + 1} / {numberOfProductDiscounts} product discounts generated.");
         } catch (Exception ex)
         {
@@ -124,7 +146,7 @@ static void GenerateMockedData(
         try
         {
             purchase = dataGenerator.GenerateFakePurchase();
-            postgresService.AddPurchase(purchase);
+            purchaseService.Add(purchase);
             Console.Write($"\rProgress: {i + 1} / {numberOfPurchases} purchases generated.");
         } catch (Exception ex)
         {
@@ -142,7 +164,7 @@ static void GenerateMockedData(
         try
         {
             productPurchase = dataGenerator.GenerateFakeProductPurchase();
-            postgresService.AddProductPurchase(productPurchase);
+            productPurchaseService.Add(productPurchase);
             Console.Write($"\rProgress: {i + 1} / {numberOfProductPurchases} product purchases generated.");
         } catch (Exception ex)
         {

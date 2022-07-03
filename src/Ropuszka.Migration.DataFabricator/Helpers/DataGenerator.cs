@@ -1,24 +1,44 @@
 using Bogus;
 using Ropuszka.Migration.Core.Models.Postgres;
-using Ropuszka.Migration.Core.Services;
+using Ropuszka.Migration.Core.Services.Postgres;
 
 namespace Ropuszka.Migration.DataFabricator.Helpers;
 
 public class DataGenerator
 {
-    private readonly PostgresService _postgresService;
+    private readonly ClientService _clientService;
+    private readonly DiscountService _discountService;
+    private readonly ProductDiscountService _productDiscountService;
+    private readonly ProductPurchaseService _productPurchaseService;
+    private readonly ProductService _productService;
+    private readonly PurchaseService _purchaseService;
+    private readonly ShopService _shopService;
     private readonly Faker _faker;
     
-    public DataGenerator()
+    public DataGenerator(
+        ClientService clientService,
+        DiscountService discountService,
+        ProductDiscountService productDiscountService,
+        ProductPurchaseService productPurchaseService,
+        ProductService productService,
+        PurchaseService purchaseService,
+        ShopService shopService
+        )
     {
-        _postgresService = new PostgresService();
+        _clientService = clientService;
+        _discountService = discountService;
+        _productDiscountService = productDiscountService;
+        _productPurchaseService = productPurchaseService;
+        _productService = productService;
+        _purchaseService = purchaseService;
+        _shopService = shopService;
         _faker = new Faker();
         Randomizer.Seed = new Random(123);
     }
 
     public ClientDto GenerateFakeClient()
     {
-        var nextId = _postgresService.GetNextIdForTable("client");
+        var nextId = _clientService.GetNextId();
         var name = $"{_faker.Name.FirstName()} {_faker.Name.LastName()}";
         var dateOfBirth = _faker.Date.Between(new DateTime(1940, 01, 01), new DateTime(2003, 12, 31));
         var emailAddress = _faker.Internet.Email();
@@ -33,7 +53,7 @@ public class DataGenerator
 
     public DiscountDto GenerateFakeDiscount()
     {
-        var nextId = _postgresService.GetNextIdForTable("discount");
+        var nextId = _discountService.GetNextId();
         var name = _faker.Lorem.Word();
         var percentage = Math.Round(_faker.Random.Double(0.00, 0.99), 2);
         var dateFrom = _faker.Date.Between(new DateTime(2019, 01, 01), new DateTime(2022, 12, 31));
@@ -50,7 +70,7 @@ public class DataGenerator
 
     public ProductDto GenerateFakeProduct()
     {
-        var nextId = _postgresService.GetNextIdForTable("product");
+        var nextId = _productService.GetNextId();
         var name = _faker.Commerce.ProductName();
         var price = Math.Round(_faker.Random.Double(1, 200), 2);
         var producerName = _faker.Company.CompanyName();
@@ -65,9 +85,9 @@ public class DataGenerator
     
     public ProductDiscountDto GenerateFakeProductDiscount()
     {
-        var nextId = _postgresService.GetNextIdForTable("product_discount");
-        var idProduct = _faker.Random.Int(1, _postgresService.GetNextIdForTable("product") - 1);
-        var idDiscount = _faker.Random.Int(1, _postgresService.GetNextIdForTable("discount") - 1);
+        var nextId = _productDiscountService.GetNextId();
+        var idProduct = _faker.Random.Int(1, _productService.GetNextId() - 1);
+        var idDiscount = _faker.Random.Int(1, _discountService.GetNextId() - 1);
         return new ProductDiscountDto
         {
             Id = nextId,
@@ -78,9 +98,9 @@ public class DataGenerator
     
     public ProductPurchaseDto GenerateFakeProductPurchase()
     {
-        var nextId = _postgresService.GetNextIdForTable("product_purchase");
-        var idProduct = _faker.Random.Int(1, _postgresService.GetNextIdForTable("product") - 1);
-        var idPurchase = _faker.Random.Int(1, _postgresService.GetNextIdForTable("purchase") - 1);
+        var nextId = _productPurchaseService.GetNextId();
+        var idProduct = _faker.Random.Int(1, _productService.GetNextId() - 1);
+        var idPurchase = _faker.Random.Int(1, _purchaseService.GetNextId() - 1);
         var quantity = Math.Round(_faker.Random.Double(0.00, 99.99), 2);
         return new ProductPurchaseDto
         {
@@ -93,10 +113,10 @@ public class DataGenerator
     
     public PurchaseDto GenerateFakePurchase()
     {
-        var nextId = _postgresService.GetNextIdForTable("purchase");
+        var nextId = _purchaseService.GetNextId();
         var date = _faker.Date.Between(new DateTime(2019, 01, 01), new DateTime(2022, 12, 31));
-        var idShop = _faker.Random.Int(1, _postgresService.GetNextIdForTable("shop") - 1);
-        var idClient = _faker.Random.Int(1, _postgresService.GetNextIdForTable("client") - 1);
+        var idShop = _faker.Random.Int(1, _shopService.GetNextId() - 1);
+        var idClient = _faker.Random.Int(1, _clientService.GetNextId() - 1);
         return new PurchaseDto
         {
             Id = nextId,
@@ -108,7 +128,7 @@ public class DataGenerator
 
     public ShopDto GenerateFakeShop()
     {
-        var nextId = _postgresService.GetNextIdForTable("shop");
+        var nextId = _shopService.GetNextId();
         var address = _faker.Address.StreetAddress();
         var phoneNumber = _faker.Phone.PhoneNumber("###-###-###");
         var emailAddress = _faker.Internet.Email();

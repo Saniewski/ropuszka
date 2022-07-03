@@ -1,5 +1,6 @@
 ﻿using Ropuszka.Migration.Core.Models.Postgres;
-using Ropuszka.Migration.Core.Services;
+using Ropuszka.Migration.Core.Services.Mongo;
+using Ropuszka.Migration.Core.Services.Postgres;
 using Ropuszka.Migration.DataMigrator.Helpers;
 
 MigrateData();
@@ -7,13 +8,27 @@ MigrateData();
 static void MigrateData()
 {
     // Setup
-    var postgresService = new PostgresService();
+    var clientService = new ClientService();
+    var discountService = new DiscountService();
+    var productDiscountService = new ProductDiscountService();
+    var productPurchaseService = new ProductPurchaseService();
+    var productService = new ProductService();
+    var purchaseService = new PurchaseService();
+    var shopService = new ShopService();
     var mongoService = new MongoService();
-    var dtoConverter = new PostgresToMongoDtoConverter(postgresService);
+    var dtoConverter = new PostgresToMongoDtoConverter(
+        clientService,
+        discountService,
+        productDiscountService,
+        productPurchaseService,
+        productService,
+        purchaseService,
+        shopService
+        );
     
     // Migrate clients
     Console.WriteLine("Migrating clients...");
-    var allClientIds = postgresService.GetAllClientIds().ToList();
+    var allClientIds = clientService.GetAllIds().ToList();
     var numberOfClients = allClientIds.Count;
     var i = 1;
     foreach (var clientId in allClientIds)
@@ -21,7 +36,7 @@ static void MigrateData()
         ClientDto? pgClient = null;
         try
         {
-            pgClient = postgresService.GetClient(clientId);
+            pgClient = clientService.GetById(clientId);
             if (pgClient == null)
             {
                 Console.Error.WriteLine($"Client {clientId} not found in Postgres database");
@@ -42,7 +57,7 @@ static void MigrateData()
 
     // Migrate discounts
     Console.WriteLine("Migrating discounts...");
-    var allDiscountIds = postgresService.GetAllDiscountIds().ToList();
+    var allDiscountIds = discountService.GetAllIds().ToList();
     var numberOfDiscounts = allDiscountIds.Count;
     i = 1;
     foreach (var discountId in allDiscountIds)
@@ -50,7 +65,7 @@ static void MigrateData()
         DiscountDto? pgDiscount = null;
         try
         {
-            pgDiscount = postgresService.GetDiscount(discountId);
+            pgDiscount = discountService.GetById(discountId);
             if (pgDiscount == null)
             {
                 Console.Error.WriteLine($"Discount {discountId} not found in Postgres database");
@@ -71,7 +86,7 @@ static void MigrateData()
 
     // Migrate products
     Console.WriteLine("Migrating products...");
-    var allProductIds = postgresService.GetAllProductIds().ToList();
+    var allProductIds = productService.GetAllIds().ToList();
     var numberOfProducts = allProductIds.Count;
     i = 1;
     foreach (var productId in allProductIds)
@@ -79,7 +94,7 @@ static void MigrateData()
         ProductDto? pgProduct = null;
         try
         {
-            pgProduct = postgresService.GetProduct(productId);
+            pgProduct = productService.GetById(productId);
             if (pgProduct == null)
             {
                 Console.Error.WriteLine($"Product {productId} not found in Postgres database");
@@ -100,7 +115,7 @@ static void MigrateData()
 
     // Migrate shops
     Console.WriteLine("Migrating shops...");
-    var allShopIds = postgresService.GetAllShopIds().ToList();
+    var allShopIds = shopService.GetAllIds().ToList();
     var numberOfShops = allShopIds.Count;
     i = 1;
     foreach (var shopId in allShopIds)
@@ -108,7 +123,7 @@ static void MigrateData()
         ShopDto? pgShop = null;
         try
         {
-            pgShop = postgresService.GetShop(shopId);
+            pgShop = shopService.GetById(shopId);
             if (pgShop == null)
             {
                 Console.Error.WriteLine($"Shop {shopId} not found in Postgres database");
