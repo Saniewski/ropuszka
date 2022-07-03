@@ -4,7 +4,7 @@ using Ropuszka.Migration.Core.Models.Mongo.Discount;
 using Ropuszka.Migration.Core.Models.Mongo.Product;
 using Ropuszka.Migration.Core.Models.Mongo.Shop;
 
-namespace Ropuszka.Migration.Core.Services;
+namespace Ropuszka.Migration.Core.Services.Mongo;
 
 public class MongoService
 {

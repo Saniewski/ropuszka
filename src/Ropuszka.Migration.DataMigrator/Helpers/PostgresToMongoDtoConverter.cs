@@ -1,6 +1,6 @@
 using Ropuszka.Migration.Core.Models.Mongo.Client;
 using Ropuszka.Migration.Core.Models.Mongo.Discount;
-using Ropuszka.Migration.Core.Services;
+using Ropuszka.Migration.Core.Services.Postgres;
 using mongo = Ropuszka.Migration.Core.Models.Mongo;
 using pg = Ropuszka.Migration.Core.Models.Postgres;
 
@@ -8,22 +8,42 @@ namespace Ropuszka.Migration.DataMigrator.Helpers;
 
 public class PostgresToMongoDtoConverter
 {
-    private readonly PostgresService _postgresService;
-    
-    public PostgresToMongoDtoConverter(PostgresService postgresService)
+    private readonly ClientService _clientService;
+    private readonly DiscountService _discountService;
+    private readonly ProductDiscountService _productDiscountService;
+    private readonly ProductPurchaseService _productPurchaseService;
+    private readonly ProductService _productService;
+    private readonly PurchaseService _purchaseService;
+    private readonly ShopService _shopService;
+
+    public PostgresToMongoDtoConverter(
+        ClientService clientService,
+        DiscountService discountService,
+        ProductDiscountService productDiscountService,
+        ProductPurchaseService productPurchaseService,
+        ProductService productService,
+        PurchaseService purchaseService,
+        ShopService shopService
+    )
     {
-        _postgresService = postgresService;
+        _clientService = clientService;
+        _discountService = discountService;
+        _productDiscountService = productDiscountService;
+        _productPurchaseService = productPurchaseService;
+        _productService = productService;
+        _purchaseService = purchaseService;
+        _shopService = shopService;
     }
-    
+
     public mongo.Client.ClientDto ConvertPgClientToMongoClient(pg.ClientDto pgClient)
     {
         // get purchases
         var mongoPurchases = new List<mongo.Client.Purchase>();
-        var pgPurchases = _postgresService.GetAllPurchasesByClientId(pgClient.Id);
+        var pgPurchases = _purchaseService.GetAllByClientId(pgClient.Id);
         foreach (var pgPurchase in pgPurchases)
         {
             // get shop
-            var pgShop = _postgresService.GetShop(pgPurchase.IdShop);
+            var pgShop = _shopService.GetById(pgPurchase.IdShop);
             var mongoShop = new mongo.Client.Shop
             {
                 IdShop = pgShop.Id,
@@ -33,16 +53,16 @@ public class PostgresToMongoDtoConverter
             };
             // get purchased products
             var mongoPurchasedProducts = new List<mongo.Client.PurchasedProduct>();
-            var pgProductPurchases = _postgresService.GetAllProductPurchasesByPurchaseId(pgPurchase.Id);
+            var pgProductPurchases = _productPurchaseService.GetAllByPurchaseId(pgPurchase.Id);
             foreach (var pgProductPurchase in pgProductPurchases)
             {
-                var pgProduct = _postgresService.GetProduct(pgProductPurchase.IdProduct);
+                var pgProduct = _productService.GetById(pgProductPurchase.IdProduct);
                 // get discount
                 mongo.Client.Discount mongoDiscount = null;
-                var pgProductDiscounts = _postgresService.GetAllProductDiscountsByProductId(pgProduct.Id);
+                var pgProductDiscounts = _productDiscountService.GetAllByProductId(pgProduct.Id);
                 foreach (var pgProductDiscount in pgProductDiscounts)
                 {
-                    var pgDiscount = _postgresService.GetDiscount(pgProductDiscount.IdDiscount);
+                    var pgDiscount = _discountService.GetById(pgProductDiscount.IdDiscount);
                     if (pgPurchase?.Date > pgDiscount?.DateFrom && pgPurchase?.Date < pgDiscount?.DateTo)
                         mongoDiscount = new Discount
                         {
@@ -88,10 +108,10 @@ public class PostgresToMongoDtoConverter
     {
         // get discounted products
         var mongoDiscountedProducts = new List<DiscountedProduct>();
-        var pgProductDiscounts = _postgresService.GetAllProductDiscountsByDiscountId(pgDiscount.Id);
+        var pgProductDiscounts = _productDiscountService.GetAllByDiscountId(pgDiscount.Id);
         foreach (var pgProductDiscount in pgProductDiscounts)
         {
-            var pgProduct = _postgresService.GetProduct(pgProductDiscount.IdProduct);
+            var pgProduct = _productService.GetById(pgProductDiscount.IdProduct);
             mongoDiscountedProducts.Add(new DiscountedProduct
             {
                 IdDiscountedProduct = pgProduct.Id,
@@ -118,10 +138,10 @@ public class PostgresToMongoDtoConverter
     {
         // get discounts
         var mongoDiscounts = new List<mongo.Product.Discount>();
-        var pgProductDiscounts = _postgresService.GetAllProductDiscountsByProductId(pgProduct.Id);
+        var pgProductDiscounts = _productDiscountService.GetAllByProductId(pgProduct.Id);
         foreach (var pgProductDiscount in pgProductDiscounts)
         {
-            var pgDiscount = _postgresService.GetDiscount(pgProductDiscount.IdDiscount);
+            var pgDiscount = _discountService.GetById(pgProductDiscount.IdDiscount);
             mongoDiscounts.Add(new mongo.Product.Discount
             {
                 IdDiscount = pgDiscount.Id,
@@ -148,11 +168,11 @@ public class PostgresToMongoDtoConverter
     {
         // get purchases
         var mongoPurchases = new List<mongo.Shop.Purchase>();
-        var pgPurchases = _postgresService.GetAllPurchasesByShopId(pgShop.Id);
+        var pgPurchases = _purchaseService.GetAllByShopId(pgShop.Id);
         foreach (var pgPurchase in pgPurchases)
         {
             // get client
-            var pgClient = _postgresService.GetClient(pgPurchase.IdClient);
+            var pgClient = _clientService.GetById(pgPurchase.IdClient);
             var mongoClient = new mongo.Shop.Client
             {
                 IdClient = pgClient.Id,
@@ -163,16 +183,16 @@ public class PostgresToMongoDtoConverter
             
             // get purchased products
             var mongoPurchasedProducts = new List<mongo.Shop.PurchasedProduct>();
-            var pgProductPurchases = _postgresService.GetAllProductPurchasesByPurchaseId(pgPurchase.Id);
+            var pgProductPurchases = _productPurchaseService.GetAllByPurchaseId(pgPurchase.Id);
             foreach (var pgProductPurchase in pgProductPurchases)
             {
-                var pgProduct = _postgresService.GetProduct(pgProductPurchase.IdProduct);
+                var pgProduct = _productService.GetById(pgProductPurchase.IdProduct);
                 // get discount
                 mongo.Shop.Discount mongoDiscount = null;
-                var pgProductDiscounts = _postgresService.GetAllProductDiscountsByProductId(pgProduct.Id);
+                var pgProductDiscounts = _productDiscountService.GetAllByProductId(pgProduct.Id);
                 foreach (var pgProductDiscount in pgProductDiscounts)
                 {
-                    var pgDiscount = _postgresService.GetDiscount(pgProductDiscount.IdDiscount);
+                    var pgDiscount = _discountService.GetById(pgProductDiscount.IdDiscount);
                     if (pgPurchase?.Date > pgDiscount?.DateFrom && pgPurchase?.Date < pgDiscount?.DateTo)
                         mongoDiscount = new mongo.Shop.Discount
                         {
