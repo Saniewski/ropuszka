@@ -11,11 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Bogus" Version="34.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Ropuszka.Migration.Core\Ropuszka.Migration.Core.csproj" />
+      <ProjectReference Include="..\..\Ropuszka.Migration.Core\Ropuszka.Migration.Core\Ropuszka.Migration.Core.csproj" />
     </ItemGroup>
 
 </Project>

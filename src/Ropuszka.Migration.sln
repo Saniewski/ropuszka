@@ -1,10 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.DataFabricator", "Ropuszka.Migration.DataFabricator\Ropuszka.Migration.DataFabricator.csproj", "{E7601872-858B-4615-98F6-06A3D8927EAF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.Core", "Ropuszka.Migration.Core\Ropuszka.Migration.Core\Ropuszka.Migration.Core.csproj", "{E694B076-289D-4A25-B168-E13A06E59EE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.DataMigrator", "Ropuszka.Migration.DataMigrator\Ropuszka.Migration.DataMigrator.csproj", "{4EB4C89A-4269-4E4D-84CF-792EF0698914}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.DataFabricator", "Ropuszka.Migration.DataFabricator\Ropuszka.Migration.DataFabricator\Ropuszka.Migration.DataFabricator.csproj", "{E7601872-858B-4615-98F6-06A3D8927EAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.Core", "Ropuszka.Migration.Core\Ropuszka.Migration.Core.csproj", "{E694B076-289D-4A25-B168-E13A06E59EE7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ropuszka.Migration.DataMigrator", "Ropuszka.Migration.DataMigrator\Ropuszka.Migration.DataMigrator\Ropuszka.Migration.DataMigrator.csproj", "{4EB4C89A-4269-4E4D-84CF-792EF0698914}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ropuszka.Migration.Core", "Ropuszka.Migration.Core", "{0FE68867-922A-46BF-9135-D68B3A1602DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ropuszka.Migration.DataFabricator", "Ropuszka.Migration.DataFabricator", "{597B5FA1-C3AC-4295-98D9-AC7C6DE99E67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ropuszka.Migration.DataMigrator", "Ropuszka.Migration.DataMigrator", "{65BD9A02-06C3-497C-8E78-D438B3712444}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +30,10 @@ Global
 		{E694B076-289D-4A25-B168-E13A06E59EE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E694B076-289D-4A25-B168-E13A06E59EE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E694B076-289D-4A25-B168-E13A06E59EE7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E694B076-289D-4A25-B168-E13A06E59EE7} = {0FE68867-922A-46BF-9135-D68B3A1602DA}
+		{E7601872-858B-4615-98F6-06A3D8927EAF} = {597B5FA1-C3AC-4295-98D9-AC7C6DE99E67}
+		{4EB4C89A-4269-4E4D-84CF-792EF0698914} = {65BD9A02-06C3-497C-8E78-D438B3712444}
 	EndGlobalSection
 EndGlobal
